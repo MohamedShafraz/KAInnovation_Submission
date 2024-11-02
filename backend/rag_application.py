@@ -44,71 +44,24 @@ embeddings = fe(openai_api_key=Openai_api_key)
 # db = FAISS.load_local("faiss_index", embeddings)
 db = FAISS.load_local("faiss_index", embeddings,allow_dangerous_deserialization=True)
 
-
+prompt = PromptTemplate(
+    input_variables=["context", "question"], 
+    template=prompt_template
+)
 
 
 # initialize the model
 def initialize_model(model_name):
     if model_name == "gpt-4o-mini":
-        prompt = PromptTemplate(
-    input_variables=["context", "question"], 
-    template=prompt_template
-)
+        
         llm = LLMChain(llm=ChatOpenAI(model="gpt-4o-mini", openai_api_key=Openai_api_key), prompt=prompt)
-        # return LLMChain(
-        #     llm=ChatOpenAI(
-        #         model="gpt-4o-mini", openai_api_key=openai_api_key, max_tokens=1024
-        #     ),
-        #     prompt=PromptTemplate.from_template(prompt_template),
-        # )
+        
+        
+    elif model_name == "gpt-4":
+
+        llm = LLMChain(llm=ChatOpenAI(model="gpt-4o-mini", openai_api_key=Openai_api_key), prompt=prompt)
         return llm
-    elif model_name == "gpt-3.5-turbo":
-        return llm(
-            llm=ChatOpenAI(
-                model="gpt-3.5-turbo", openai_api_key=Openai_api_key, max_tokens=1024
-            ),
-            prompt=PromptTemplate.from_template(prompt_template),
-        )
-    # elif model_name == "claude-2":
-    #     return llm(
-    #         llm=ChatAnthropic(
-    #             temperature=0, anthropic_api_key=claude_api_key, model_name="claude-2"
-    #         ),
-    #         prompt=PromptTemplate.from_template(prompt_template),
-    #     )
-    # elif model_name == "mistral":
-    #     return llm(
-    #         llm=Together(
-    #             model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-    #             temperature=0,
-    #             max_tokens=500,
-    #             top_k=3,
-    #             together_api_key=together_api_key,
-    #         ),
-    #         prompt=PromptTemplate.from_template(prompt_template),
-    #     )
-    # elif model_name == "llama2-7b":
-    #     return llm(
-    #         llm=Together(
-    #             model="meta-llama/Llama-2-7b-chat-hf",
-    #             temperature=0,
-    #             max_tokens=500,
-    #             top_k=3,
-    #             together_api_key=together_api_key,
-    #         ),
-    #         prompt=PromptTemplate.from_template(prompt_template),
-    #     )
-    # elif model_name == "gemma-7b":
-    #     return llm(
-    #         llm=Together(
-    #             model="google/gemma-7b-it",
-    #             temperature=0,
-    #             max_tokens=500,
-    #             top_k=3,
-    #             together_api_key=together_api_key,
-    #         ),
-    #         prompt=PromptTemplate.from_template(prompt_template),
-    #     )
+   
 
     else:
         raise ValueError(f"Unsupported model name: {model_name}")
