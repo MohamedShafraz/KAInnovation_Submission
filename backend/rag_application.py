@@ -28,7 +28,7 @@ from langchain_community.llms import Together
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 from dotenv import load_dotenv
 load_dotenv() 
-openai_api_key = os.getenv("open_ai_key")
+Openai_api_key = os.getenv("open_ai_key")
 
 prompt_template = """
 You are financial analyst tasking with providing investment advice.
